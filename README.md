@@ -3,5 +3,5 @@
 ## Usage
 
 ```sh
-deno run --allow-net main.ts
+deno run --allow-net --unstable main.ts
 ```
