@@ -13,8 +13,6 @@
     "deno.enable": true,
     // Enables Deno linting for the project
     "deno.lint": true,
-    // Enables unstable Deno features
-    "deno.unstable": true,
     // Sets Deno as the default formatter for the project
     "editor.defaultFormatter": "denoland.vscode-deno"
   },
