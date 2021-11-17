@@ -7,7 +7,6 @@ import {
 } from "https://cdn.skypack.dev/@envelop/core@1.6.1?dts";
 
 const builder = new SchemaBuilder({});
-const addr = ":8000";
 
 builder.queryType({
   fields: (t) => ({
@@ -71,4 +70,4 @@ const handler = async (request: Request): Promise<Response> => {
 
 console.log("Server running at http://localhost:8000");
 
-await serve(handler, { addr });
+await serve(handler);
