@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.114.0/http/server.ts";
-import SchemaBuilder from "https://cdn.skypack.dev/@giraphql/deno/packages/core/mod.ts";
+import SchemaBuilder from "https://cdn.skypack.dev/@giraphql/core?dts";
 import {
   envelop,
   useSchema,
@@ -7,7 +7,7 @@ import {
 } from "https://cdn.skypack.dev/@envelop/core@1.6.1?dts";
 
 const builder = new SchemaBuilder({});
-const addr = ":8080";
+const addr = ":8000";
 
 builder.queryType({
   fields: (t) => ({
@@ -30,6 +30,18 @@ const getEnveloped = envelop({
 });
 
 const handler = async (request: Request): Promise<Response> => {
+  if (request.method === "GET") {
+    const { default: playground } = await import(
+      "https://gist.githubusercontent.com/hayes/5c99f7b4f71234452036fd88e142a825/raw/655245a052b10c2912a803c8a6d537096b73c10b/playground.ts"
+    );
+
+    return new Response(playground({ endpoint: "http://localhost:8000" }), {
+      headers: {
+        "content-type": "text/html",
+      },
+    });
+  }
+
   try {
     const { parse, validate, contextFactory, execute, schema } = getEnveloped();
 
@@ -56,5 +68,7 @@ const handler = async (request: Request): Promise<Response> => {
     return new Response(null, { status: 500 });
   }
 };
+
+console.log("Server running at http://localhost:8000");
 
 await serve(handler, { addr });
